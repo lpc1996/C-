@@ -53,6 +53,7 @@ extern char* getpass();
 extern bool addToList(User pause);
 extern bool addToFile(User pause);
 extern char* setId(int type);
+extern char* setId();
 extern bool Register();
 extern bool is_infile( char str[] , int ispass ,int type);
 extern int LoginToSystem(int type);
@@ -64,7 +65,7 @@ extern void ReadBookFile();
 extern void put_data();
 extern void print_book();
 extern bool isin_bookfile(char id[9]);
-extern char *set_bookid();
+//extern char *set_bookid();
 extern int get_booknum( char id[9] );
 extern bool add_to_book_list(Book_inf pause);
 extern bool add_to_bookFile(Book_inf pause); 
@@ -73,7 +74,14 @@ extern void manage_reader();
 extern bool delete_from_datalist(int type,char str[21]);
 extern bool delete_reader();
 extern bool delete_from_file(); 
+extern bool delete_from_booklist(int type,char str[100]);
+extern bool delete_book();
+extern bool delete_from_bookfile();
+extern bool change_book_menu();
+extern Book_inf* search_book_list(int type,char str[100]);
+extern bool change_book(int type,char str[100]);
 
 extern ListHead datalist;
+extern User *this_user;
 
 #endif

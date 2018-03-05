@@ -3,6 +3,7 @@
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 ListHead datalist;
+User *this_user; 
 
 int main(int argc, char** argv) {
 	int login_type;
@@ -10,16 +11,16 @@ int main(int argc, char** argv) {
 	ReadBookFile();
 	if(login_type == 1){
 		system("cls");
+		cout << this_user->name << "»¶Ó­£¡" <<endl; 
 		Readermenu();
 	}else if( login_type == 2 ){
 		system("cls");
+		cout << this_user->name << "»¶Ó­£¡" <<endl;
 		operator_menu();
 	}
 	cout << "ÔÙ¼û£¡" << endl;
-	//ReadBookFile();
-	//print_book();
-	//ReadUserFile();
-	//put_data();
+	system("pause");
+	return 0;
 }
 
 tm* get_time(){

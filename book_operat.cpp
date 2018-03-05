@@ -101,3 +101,143 @@ bool add_to_book_list(Book_inf pause){
 	}
 	return is_success;
 }
+
+bool change_book_menu(){
+	bool is_success = false;
+	int is_continue = -1;
+	char str[100];
+	cout << " ---------------------------------------------------------------------- " <<endl;
+	cout << "|                                                                      |" <<endl; 
+	cout << "|                             删除读者信息                             |" <<endl;
+	cout << "| 1图书编号   2图书名称   0退出                                        |" <<endl;
+	cout << "|                                                                      |" <<endl;
+	cout << " ---------------------------------------------------------------------- " <<endl;
+	cin >> is_continue;
+	if(is_continue == 1){
+		cout << "请输入要修改的图书编号:";
+	}else if(is_continue == 2){
+		cout << "请输入要修改的图书名称:";
+	}else{
+		return false; 
+	}
+	cin >> str;
+	is_success = change_book(is_continue,str);
+	return is_success;
+}
+
+Book_inf* search_book_list(int type,char str[100]){
+	bool is_success = false;
+	Book_inf *h = datalist.Bookhead;
+	while(h){
+		if(type == 1){
+			if( strcmp(str,h->book_id) == 0 ){
+				is_success = true;
+				break;
+			}
+		}else if(type == 2){
+			if( strcmp(str,h->book_name) == 0){
+				is_success = true;
+				break;
+			}
+		}
+		/*if(is_success){
+			printf("| 编号   |             名称   |        作者        |        出版社      | 出版日期 |  类型 | 价格| 在库数量 |\n"); 
+			printf("|%s|%20s|%20s|%20s|%d-%02d-%02d|   %02d  |%05.2f|%8d  |\n", h->book_id , h->book_name , h->book_author, h->book_public,h->d.year,h->d.mon,
+			h->d.day,h->book_type, h->book_price, h->book_number );
+		}*/
+		h = h->next;
+	}
+	return h;
+}
+
+bool change_book(int type,char str[100]){
+	bool is_success = false;
+	Book_inf* p = NULL;
+	p = search_book_list(type,str);
+	if(p != NULL){
+		printf("| 编号   |             名称   |        作者        |        出版社      | 出版日期 |  类型 | 价格| 在库数量 |\n"); 
+		printf("|%s|%20s|%20s|%20s|%d-%02d-%02d|   %02d  |%05.2f|%8d  |\n", p->book_id , p->book_name , p->book_author, p->book_public,p->d.year,p->d.mon,
+		p->d.day,p->book_type, p->book_price, p->book_number );
+		int is_continue = -1;
+		char c;
+		do{
+			cout << " ---------------------------------------------------------------------- " <<endl;
+			cout << "|                                                                      |" <<endl; 
+			cout << "|                           要修改的图书信息                           |" <<endl;
+			cout << "| 1图书名称   2图书作者   3图书出版社   4出版日期    5类型   6价格     |" <<endl;
+			cout << "| 7在库数量   0退出                                                    |" <<endl;
+			cout << "|                                                                      |" <<endl;
+			cout << " ---------------------------------------------------------------------- " <<endl;
+			cin >> is_continue;
+			switch(is_continue){
+				case 1:
+					cout << "请输入图书名称:" ;
+					cin >> p->book_name;
+					break;
+				case 2:
+					cout << "请输入图书作者:" ;
+					cin >> p->book_author;
+					break;
+				case 3:
+					cout << "请输入图书出版社:";
+					cin >> p->book_public;
+					break;
+				case 4:
+					cout << "请输入图书出版日期:";
+					scanf("%d",&p->d.year);cout << "年 ";
+					scanf("%d",&p->d.mon); cout << "月 ";
+					scanf("%d",&p->d.day);cout << "日"<<endl;
+					break;
+				case 5:
+					cout << "请输入类型编号:";
+					cin >> p->book_type;
+					break;
+				case 6:
+					cout << "请输入价格:";
+					cin >> p->book_price;
+					break;
+				case 7:
+					cout << "请输入在库数量:";
+					cin >> p->book_number;
+					break;
+				case 0:
+					cout << "退出" <<endl;
+					is_success = false;
+					break;
+				default:
+					cout << "你输入的选项非法,请重新输入！"<<endl;
+					break;
+			}
+			cout << "请确认是否继续修改(y/n):";
+			do{
+				cin >> c;
+				if(c != 'y' && c != 'n'){
+					cout << "你输入的选项有误，请重新输入!"<<endl;
+				}
+				if(c == 'n'){
+					break;
+				}
+			}while(c != 'n' && c != 'y');
+			if(c == 'n'){
+				break;
+			}
+		}while(is_continue != 0 || c != 'n');
+		cout << "请确认你是否要修改这本图书的信息(y/n):";
+		do{
+			cin >> c;
+			if( c == 'y' ){
+				is_success = delete_from_bookfile(); 
+				break;
+			}else if(c == 'n'){
+				is_success = false;
+				break;
+			}else{
+				cout << "你输入的选项有误，请重新输入!" <<endl; 
+			}
+		}while(c != 'y' || c != 'n');
+	}else{
+		cout << "在书库中找不到图书" << str << endl;
+		is_success = false; 
+	}
+	return is_success;
+}

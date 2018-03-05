@@ -51,7 +51,7 @@ void operator_menu(){
 		cout << "|                              图书管理系统                            |" <<endl;
 		cout << "| 1打印现有图书及其信息   2读者信息管理   3书籍借出与归还记录          |" <<endl;
 		cout << "| 4查询书籍信息   5图书分类统计    6图书买入   7删除图书信息           |" <<endl;
-		cout << "| 0退出                                                                |" <<endl;
+		cout << "| 8修改图书信息   0退出                                                |" <<endl;
 		cout << "|                                                                      |" <<endl;
 		cout << " ----------------------------------------------------------------------" <<endl;
 		cin >> operat_type;
@@ -87,7 +87,21 @@ void operator_menu(){
 				break;
 			case 7 :
 				system("cls");
-				cout << "删除图书信息" <<endl;
+				is_success = delete_book();
+				if(is_success){
+					cout << "成功" <<endl;
+				}else{
+					cout << "失败" <<endl;
+				}
+				break;
+			case 8:
+				system("cls");
+				is_success = change_book_menu(); 
+				if(is_success){
+					cout << "成功" <<endl;
+				}else{
+					cout << "失败" <<endl;
+				}
 				break;
 			case 0:
 				cout << "退出" << endl;
@@ -105,7 +119,7 @@ void operator_menu(){
 bool buy_book(){//添加图书 
 	bool is_success = false;
 	Book_inf pause;
-	char *is = set_bookid();//生成书籍编号 
+	char *is = setId();//生成书籍编号 
 	strcpy(pause.book_id,is);
 	free(is);
 	cout << "请输入图书名称:" ;
@@ -118,9 +132,9 @@ bool buy_book(){//添加图书
 	cin >> pause.book_public; 
 	cout << endl;
 	cout << "请输入出版日期" << endl;
-	cout << "年" ;cin>>pause.d.year;
-	cout << "月 "; cin >>pause.d.mon;
-	cout << "日 "; cin >>pause.d.day;
+	cout << "年"; cin>>pause.d.year;
+	cout << "月"; cin >>pause.d.mon;
+	cout << "日"; cin >>pause.d.day;
 	cout <<endl;
 	cout << "请输入图书类别编号:";
 	cin >> pause.book_type;
@@ -137,7 +151,7 @@ bool buy_book(){//添加图书
 	return is_success;
 }
 
-char *set_bookid(){
+char* setId(){
 	char num[9];
 	tm* tm_ptr;
 	tm_ptr = get_time();//获取系统当前时间 
@@ -197,10 +211,11 @@ char *set_bookid(){
 void manage_reader(){
 	int operat_type = 0;
 	do{
+		operat_type = 0;
 		cout << " ---------------------------------------------------------------------- " <<endl;
 		cout << "|                                                                      |" <<endl;  
 		cout << "|                            读者信息管理                              |" <<endl;
-		cout << "| 1打印读者信息   2删除读者信息   3修改读者信息   0返回上一级          |" <<endl; 
+		cout << "| 1打印读者信息   2删除读者信息   3修改读者信息   0返回上级菜单        |" <<endl; 
 		cout << "|                                                                      |" <<endl; 
 		cout << " ---------------------------------------------------------------------- " <<endl;  
 		cin >> operat_type ;
@@ -215,6 +230,7 @@ void manage_reader(){
 					cout << "成功!" <<endl; 
 				}else{
 					cout << "失败!" <<endl; 
+					operat_type = 0;
 				}
 				break;
 			case 3:
@@ -246,7 +262,7 @@ bool delete_reader(){
 	}else if(is_continue == 2){
 		cout << "请输入要删除的读者姓名：";
 	}else{
-		cout << "失败！" <<endl;
+		return false;
 	}
 	cin >> str;
 	is_success = delete_from_datalist(is_continue,str); 
@@ -262,34 +278,86 @@ bool delete_from_datalist(int type,char str[21]){
 	while( h != NULL ){
 		if(type == 1){
 			if( strcmp(h->user_id ,str) == 0 ){
-				if( h == datalist.Userhead){
-					User *p = datalist.Userhead;
-					datalist.Userhead = datalist.Userhead->next;
-					free(p);
-					is_success = true;
-				}else{
-					User *p = h;
-					q = p->next;
-					free(p);
-					is_success = true;
-				}
-				break;
+				is_success = true;
 			}
 		}else if(type == 2){
 			if(strcmp(h->name,str) == 0){
-				if( h == datalist.Userhead){
-					User *p = h;
-					h = p->next;
-					free(p);
-					is_success = true;
-				}else{
-					User *p = h;
-					q = p->next;
-					free(p);
-					is_success = true;
-				}
-				break;
+				is_success = true;
 			}
+		}
+		if(is_success){
+			if( h == datalist.Userhead){
+				User *p = datalist.Userhead;
+				datalist.Userhead = datalist.Userhead->next;
+				h = datalist.Userhead; 
+				free(p);
+				is_success = true;
+			}else{
+				User *p = h;
+				q->next = h->next;
+				free(p);
+				is_success = true;
+			}
+		}
+		q = h;
+		h = h->next;
+	}
+	return is_success;
+}
+
+bool delete_book(){
+	bool is_success = false;
+	char str[100];
+	cout << " ---------------------------------------------------------------------- " <<endl;
+	cout << "|                                                                      |" <<endl;
+	cout << "|                              删除图书信息                            |" <<endl;
+	cout << "| 1图书编号   2图书名称   0返回上级菜单                                |" <<endl;
+	cout << "|                                                                      |" <<endl;
+	cout << " ---------------------------------------------------------------------- " <<endl;
+	int is_continue = -1;
+	cin >> is_continue;
+	if(is_continue == 1){
+		cout << "请输入要删除的图书编号："; 
+	}else if(is_continue == 2){
+		cout << "请输入要删除的图书名称：";
+	}else{
+		return false;
+	}
+	cin >> str;
+	is_success = delete_from_booklist(is_continue,str);
+	is_success = delete_from_bookfile();
+	return is_success;
+ }
+ 
+bool delete_from_booklist(int type,char str[100]){
+	bool is_success = false;
+	Book_inf* h = datalist.Bookhead;
+	Book_inf* q = NULL;
+	while( h!=NULL ){
+		if( type == 1 ){
+			if( strcmp(h->book_id,str) ==0 ){
+				is_success = true;
+			}
+		}else if(type == 2){
+			if( strcmp(h->book_name,str) ==0 ){
+				is_success = true;
+			}
+		}
+		
+		if( is_success ){
+			if(h == datalist.Bookhead ){
+				q = datalist.Bookhead;
+				datalist.Bookhead = datalist.Bookhead->next;
+				h = datalist.Bookhead;
+				free(q);
+				is_success = true;
+			}else{
+				Book_inf *p = h;
+				q->next = h->next;
+				free(p);
+				is_success = true; 
+			}
+			break;
 		}
 		q = h;
 		h = h->next;

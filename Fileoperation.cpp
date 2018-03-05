@@ -56,7 +56,7 @@ void ReadBookFile(){//从书籍文件中读取书籍数据
 				h = h->next;
 			} 
 		}
-		
+		fclose(fp);
 	}else{
 		cout << "失败"<<endl;
 	}
@@ -68,6 +68,7 @@ bool addToFile(User pause){//往用户文件中添加数据
 	if( fp = fopen(User_url,"at") ){
 		fprintf(fp,"%s %s %s %d %d %s\n",pause.user_id,pause.name,pause.sex,pause.age,pause.isoperation,pause.pass);
 		is_success = true;
+		fclose(fp); 
 	}else{
 		cout << "写入文件失败!" << endl;
 	}
@@ -78,9 +79,10 @@ bool add_to_bookFile(Book_inf pause){
 	bool is_success = false;
 	FILE *fp;
 	if( fp = fopen(Book_url,"at") ){
-		fprintf(fp,"%s %s %s %s %d-%d-%d %d %.2f %d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
+		fprintf(fp,"%s %20s %20s %20s %d-%02d-%02d %d %.2f %02d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
 		pause.d.year,pause.d.mon,pause.d.day,pause.book_type,pause.book_price,pause.book_number);
 		is_success = true;
+		fclose(fp);
 	}
 	return is_success;
 }
@@ -92,6 +94,23 @@ bool delete_from_file(){
 		User *h = datalist.Userhead; 
 		while(h != NULL){
 			fprintf(fp,"%s %s %s %d %d %s\n",h->user_id,h->name,h->sex,h->age,h->isoperation,h->pass);
+			h = h->next;
+		}
+		fclose(fp);
+		is_success = true;
+	}else{
+		is_success = false;
+	}
+	return is_success;	
+}
+bool delete_from_bookfile(){
+	FILE *fp;
+	bool is_success = false;
+	if( fp = fopen(Book_url,"wt") ){
+		Book_inf *h = datalist.Bookhead; 
+		while(h != NULL){
+			fprintf(fp,"%s %20s %20s %20s %d-%02d-%02d %d %.2f %02d\n",h->book_id,h->book_name,h->book_author,h->book_public,
+		h->d.year,h->d.mon,h->d.day,h->book_type,h->book_price,h->book_number);
 			h = h->next;
 		}
 		fclose(fp);

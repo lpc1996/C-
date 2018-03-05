@@ -101,30 +101,15 @@ char* setId(int type){
 	int mon = tm_ptr->tm_mon+1;
 	int day = tm_ptr->tm_mday;
 	year = year%100;
-	itoa(year,a,10);
-	if(year < 10){
-		id[0] = '0';
-		id[1] = a[0];
-	}else{
-		id[0] = a[0]; 
-		id[1] = a[1];
-	}
-	itoa(mon,a,10);
-	if(mon<10){
-		id[2] = '0';
-		id[3] = a[0];
-	}else{
-		id[2] = a[0];
-		id[3] = a[1];
-	}
-	itoa(day,a,10);
-	if(day < 10){
-		id[4] = '0';
-		id[5] = a[0];
-	}else{
-		id[4] = a[0];
-		id[5] = a[1];
-	}
+	sprintf(a,"%02d",year);
+	id[0] = a[0];
+	id[1] = a[1];
+	sprintf(a,"%02d",year);
+	id[2] = a[0];
+	id[3] = a[1];
+	sprintf(a,"%02d",mon);
+	id[4] = a[0];
+	id[5] = a[1];
 	id[6] = '0';
 	id[7] = '0';
 	id[8] = '\0';
@@ -134,14 +119,9 @@ char* setId(int type){
 	if(is_in){
 		num = get_num(id);
 		if(num >= 0){
-			itoa(num,a,10);
-			if(num < 10){
-				id[6] = '0';
-				id[7] = a[0];
-			}else{
-				id[6] = a[0];
-				id[7] = a[1];
-			}
+			sprintf(a,"%02d",num);
+			id[6] = a[0];
+			id[7] = a[1];
 		}
 	}
 	char* is = (char *)malloc(sizeof(char)*9);
@@ -256,6 +236,9 @@ bool is_infile( char str[] , int ispass, int type){
 		
 		if( (strcmp(pa,str)) == 0 && h->isoperation == (type-1) ){
 			is_in = true;
+			if(ispass == 1 && is_in ){
+				this_user = h;
+			} 
 			break;
 		}
 		else
