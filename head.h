@@ -49,9 +49,9 @@ typedef struct _list{
 }ListHead;
 
 typedef struct _Settings{
-	char* bookURL;
-	char* settingURL;
-}Setting;
+	char* book_url;
+	char* setting_url;
+}Settings;
 
 extern void ReadUserFile();
 extern int login();
@@ -90,6 +90,6 @@ extern bool read_SettingFile();
 
 extern ListHead datalist;
 extern User *this_user;
-extern Setting setting;
+extern Settings setting;
 
 #endif

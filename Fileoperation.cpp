@@ -127,9 +127,9 @@ bool read_SettingFile(){
 	char str[200];
 	if(p = fopen(SETTING,"r")){
 		while( fscanf(p,"%s",str) != EOF){
-			//cout << str << endl;
-			setting.bookURL = strtok(str,":");
-			cout << setting.bookURL << endl;
+			cout << str << endl;
+			setting.book_url = strtok(str,":");
+//			cout << setting.book_url << endl;
 		}	
 	}
 	return is_success;
