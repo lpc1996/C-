@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 //	}
 //	cout << "ÔÙ¼û£¡" << endl;
 	read_SettingFile();
+	//buy_book();
 	system("pause");
 	return 0;
 }

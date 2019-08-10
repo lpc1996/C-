@@ -147,7 +147,7 @@ bool buy_book(){//添加图书
 	cout << endl;
 	is_success = add_to_book_list(pause);//想链表中添加新数据 
 	is_success = add_to_bookFile(pause);//向文件中追加新数据
-	system("cls"); 
+	//system("cls"); 
 	return is_success;
 }
 

@@ -8,9 +8,6 @@
 #include <time.h>
 #include <conio.h>
 
-#define User_url "D:\\workspace\\dev-c++\\数据\\图书管理系统\\用户.txt" 
-#define Book_url "book.xls" 
-#define Booktype_url "D:\\workspace\\dev-c++\\数据\\图书管理系统\\book_type.txt" 
 #define SETTING "setting.txt"
 
 using namespace std;
@@ -48,10 +45,10 @@ typedef struct _list{
     Book_inf *Bookhead;
 }ListHead;
 
-typedef struct _Settings{
-	char* book_url;
-	char* setting_url;
-}Settings;
+typedef struct _Setting{
+	char* Book_url;
+	char* User_url;
+}Setting;
 
 extern void ReadUserFile();
 extern int login();
@@ -90,6 +87,5 @@ extern bool read_SettingFile();
 
 extern ListHead datalist;
 extern User *this_user;
-extern Settings setting;
-
+extern Setting setting;
 #endif

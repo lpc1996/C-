@@ -2,7 +2,7 @@
 
 void ReadUserFile(){//从用户文件中读取用户数据 
 	FILE *fp;
-	if( fp = fopen(User_url,"rt") ){
+	if( fp = fopen(setting.User_url,"rt") ){
 		User *h;
 		h = datalist.Userhead = NULL;
 		User pause;
@@ -31,7 +31,7 @@ void ReadUserFile(){//从用户文件中读取用户数据
 
 void ReadBookFile(){//从书籍文件中读取书籍数据 
 	FILE *fp;
-	if( fp = fopen(Book_url,"rt") ){
+	if( fp = fopen(setting.Book_url,"rt") ){
 		Book_inf *h = datalist.Bookhead = NULL;
 		Book_inf pause;
 		while( fscanf(fp,"%s %s %s %s %d-%d-%d %d %f %d",pause.book_id,pause.book_name,pause.book_author,
@@ -65,7 +65,7 @@ void ReadBookFile(){//从书籍文件中读取书籍数据
 bool addToFile(User pause){//往用户文件中添加数据 
 	bool is_success = false ;
 	FILE *fp;
-	if( fp = fopen(User_url,"at") ){
+	if( fp = fopen(setting.User_url,"at") ){
 		fprintf(fp,"%s %s %s %d %d %s\n",pause.user_id,pause.name,pause.sex,pause.age,pause.isoperation,pause.pass);
 		is_success = true;
 		fclose(fp); 
@@ -78,11 +78,13 @@ bool addToFile(User pause){//往用户文件中添加数据
 bool add_to_bookFile(Book_inf pause){//向书籍文件中添加信息 
 	bool is_success = false;
 	FILE *fp;
-	if( fp = fopen(Book_url,"at") ){
-		fprintf(fp,"%s %20s %20s %20s %d-%02d-%02d %d %.2f %02d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
+	if( fp = fopen(setting.Book_url,"w") ){
+		fprintf(fp,"%s,%20s,%20s,%20s,%d-%02d-%02d,%d,%.2f,%02d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
 		pause.d.year,pause.d.mon,pause.d.day,pause.book_type,pause.book_price,pause.book_number);
 		is_success = true;
 		fclose(fp);
+	}else{
+		cout << "failed" <<endl;
 	}
 	return is_success;
 }
@@ -90,7 +92,7 @@ bool add_to_bookFile(Book_inf pause){//向书籍文件中添加信息
 bool delete_from_file(){//从用户文件中删除信息 
 	FILE *fp;
 	bool is_success = false;
-	if( fp = fopen(User_url,"wt") ){
+	if( fp = fopen(setting.User_url,"wt") ){
 		User *h = datalist.Userhead; 
 		while(h != NULL){
 			fprintf(fp,"%s %s %s %d %d %s\n",h->user_id,h->name,h->sex,h->age,h->isoperation,h->pass);
@@ -106,7 +108,7 @@ bool delete_from_file(){//从用户文件中删除信息
 bool delete_from_bookfile(){//从书籍文件中删除数据 
 	FILE *fp;
 	bool is_success = false;
-	if( fp = fopen(Book_url,"wt") ){
+	if( fp = fopen(setting.Book_url,"wt") ){
 		Book_inf *h = datalist.Bookhead; 
 		while(h != NULL){
 			fprintf(fp,"%s %20s %20s %20s %d-%02d-%02d %d %.2f %02d\n",h->book_id,h->book_name,h->book_author,h->book_public,
@@ -127,10 +129,16 @@ bool read_SettingFile(){
 	char str[200];
 	if(p = fopen(SETTING,"r")){
 		while( fscanf(p,"%s",str) != EOF){
-			cout << str << endl;
-			setting.book_url = strtok(str,":");
-//			cout << setting.book_url << endl;
-		}	
+			char *arr = strtok(str,":");
+			if(strcmp( arr,"BookFile") == 0){
+				arr= strtok(NULL,":");
+				strcpy(setting.Book_url , arr);
+			}else if(strcmp( arr,"UserFile") == 0){
+				arr= strtok(NULL,":");
+				strcpy(setting.Book_url , arr);
+			}
+		}
+		is_success = true;	
 	}
 	return is_success;
 }
