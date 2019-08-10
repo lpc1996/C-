@@ -75,7 +75,7 @@ bool addToFile(User pause){//往用户文件中添加数据
 	return is_success;
 }
 
-bool add_to_bookFile(Book_inf pause){
+bool add_to_bookFile(Book_inf pause){//向书籍文件中添加信息 
 	bool is_success = false;
 	FILE *fp;
 	if( fp = fopen(Book_url,"at") ){
@@ -87,7 +87,7 @@ bool add_to_bookFile(Book_inf pause){
 	return is_success;
 }
 
-bool delete_from_file(){
+bool delete_from_file(){//从用户文件中删除信息 
 	FILE *fp;
 	bool is_success = false;
 	if( fp = fopen(User_url,"wt") ){
@@ -103,7 +103,7 @@ bool delete_from_file(){
 	}
 	return is_success;	
 }
-bool delete_from_bookfile(){
+bool delete_from_bookfile(){//从书籍文件中删除数据 
 	FILE *fp;
 	bool is_success = false;
 	if( fp = fopen(Book_url,"wt") ){
@@ -119,5 +119,19 @@ bool delete_from_bookfile(){
 		is_success = false;
 	}
 	return is_success;	
+}
+
+bool read_SettingFile(){
+	FILE *p;
+	bool is_success = false;
+	char str[200];
+	if(p = fopen(SETTING,"r")){
+		while( fscanf(p,"%s",str) != EOF){
+			//cout << str << endl;
+			setting.bookURL = strtok(str,":");
+			cout << setting.bookURL << endl;
+		}	
+	}
+	return is_success;
 }
 

@@ -6,19 +6,20 @@ ListHead datalist;
 User *this_user; 
 
 int main(int argc, char** argv) {
-	int login_type;
-	login_type = login();
-	ReadBookFile();
-	if(login_type == 1){
-		system("cls");
-		cout << this_user->name << "»¶Ó­£¡" <<endl; 
-		Readermenu();
-	}else if( login_type == 2 ){
-		system("cls");
-		cout << this_user->name << "»¶Ó­£¡" <<endl;
-		operator_menu();
-	}
-	cout << "ÔÙ¼û£¡" << endl;
+//	int login_type;
+//	login_type = login();
+//	ReadBookFile();
+//	if(login_type == 1){
+//		system("cls");
+//		cout << this_user->name << "»¶Ó­£¡" <<endl; 
+//		Readermenu();
+//	}else if( login_type == 2 ){
+//		system("cls");
+//		cout << this_user->name << "»¶Ó­£¡" <<endl;
+//		operator_menu();
+//	}
+//	cout << "ÔÙ¼û£¡" << endl;
+	read_SettingFile();
 	system("pause");
 	return 0;
 }
