@@ -16,7 +16,7 @@ void Readermenu(){
 				print_book();
 				break;
 			case 2:
-				cout << "图书借阅 " <<endl;
+				borrow_book();
 				break;
 			case 3:
 				cout << "图书归还" << endl;
@@ -66,7 +66,7 @@ void operator_menu(){
 				break;
 			case 3: 
 				system("cls");
-				cout <<"书籍借出与归还记录" <<endl;
+				cout <<"书籍借出与归还管理" <<endl;
 				break;
 			case 4: 
 				system("cls");
@@ -151,6 +151,39 @@ bool buy_book(){//添加图书
 	is_success = add_to_bookFile(pause);//向文件中追加新数据
 	//system("cls"); 
 	return is_success;
+}
+
+void borrow_book(){//图书借阅 
+	Borrow_book cont;
+	while(true){
+		cout << "请输入你要借阅的图书编号：";
+		char id[9];
+		cin >> id;
+		if(isin_bookfile(id)){
+			strcpy(cont.Book_id,id);
+			break;
+		}
+		cout << "你输入的图书编号不存在，请重新输入！" <<endl;
+	}
+	cout << "请输入要借阅的天数：";
+	cin >> cont.days;
+	cout << "请输入借阅记录序号：";
+	cin >> cont.recdor;
+	strcpy(cont.User_id,this_user->user_id);
+	tm* time = get_time();
+	cont.Borrow_time.year=time->tm_year+1900;
+	cont.Borrow_time.mon=time->tm_mon+1;
+	cont.Borrow_time.day=time->tm_mday;
+	cont.is_return = 0;
+	if(add_to_borrow_List(cont)){
+		if(add_to_borrow_file(cont)){
+			cout << "恭喜你，借书成功，请于" << cont.days << "日期限之前还书！" <<endl;
+		}else{
+			cout << "借书失败！" <<endl;
+		}
+	}else{
+		cout << "借书失败！" <<endl;
+	}
 }
 
 char* setId(){

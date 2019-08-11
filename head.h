@@ -11,6 +11,7 @@
 #define SETTING "setting.txt"
 #define BOOK_URL "Book.txt"
 #define USER_URL "User.txt"
+#define BORROW_URL "Borrow.txt" 
 
 using namespace std;
 
@@ -42,15 +43,26 @@ typedef struct _book{
 	struct _book *next;
 }Book_inf;
 
+typedef struct _Setting{
+	char Book_url[50];
+	char User_url[50];
+}Setting;
+
+typedef struct _BorrowBook{
+	int recdor;//借阅记录编号 
+	char User_id[8];//借阅人ID 
+	char Book_id[8];//书籍编号 
+	date Borrow_time;//借阅时间 
+	int days;//借阅时长
+	int is_return;//是否归还 
+	struct _BorrowBook *next;
+}Borrow_book;
+
 typedef struct _list{
     User *Userhead;
     Book_inf *Bookhead;
+    Borrow_book *BorrowHead;
 }ListHead;
-
-typedef struct _Setting{
-	char* Book_url;
-	char* User_url;
-}Setting;
 
 extern void ReadUserFile();
 extern int login();
@@ -69,7 +81,7 @@ extern bool buy_book();
 extern void ReadBookFile();
 extern void put_data();
 extern void print_book();
-extern bool isin_bookfile(char id[9]);
+extern bool isin_bookfile(char id[]);
 //extern char *set_bookid();
 extern int get_booknum( char id[9] );
 extern bool add_to_book_list(Book_inf pause);
@@ -86,6 +98,9 @@ extern bool change_book_menu();
 extern Book_inf* search_book_list(int type,char str[100]);
 extern bool change_book(int type,char str[100]);
 extern bool read_SettingFile();
+extern void borrow_book();
+extern bool add_to_borrow_List(Borrow_book borrow);
+extern bool add_to_borrow_file(Borrow_book borr);
 
 extern ListHead datalist;
 extern User *this_user;

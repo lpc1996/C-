@@ -79,7 +79,7 @@ bool add_to_bookFile(Book_inf pause){//向书籍文件中添加信息
 	bool is_success = false;
 	FILE *fp;
 	if( fp = fopen(BOOK_URL,"w") ){
-		fprintf(fp,"%s %20s %20s %20s %d-%02d-%02d %d %.2f %02d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
+		fprintf(fp,"%s %s %s %s %d-%02d-%02d %d %.2f %d\n",pause.book_id,pause.book_name,pause.book_author,pause.book_public,
 		pause.d.year,pause.d.mon,pause.d.day,pause.book_type,pause.book_price,pause.book_number);
 		is_success = true;
 		fclose(fp);
@@ -139,6 +139,20 @@ bool read_SettingFile(){
 //			}
 		}
 		is_success = true;	
+	}
+	return is_success;
+}
+
+bool add_to_borrow_file(Borrow_book borr){
+	FILE *fp;
+	bool is_success = false;
+	if( fp = fopen(BORROW_URL,"at") ){
+		fprintf(fp,"%d %s %s %d-%02d-%02d %d %d",borr.recdor,borr.User_id,borr.Book_id,borr.Borrow_time.year,borr.Borrow_time.mon
+		,borr.Borrow_time.day,borr.days,borr.is_return);
+		fclose(fp);
+		is_success = true;
+	}else{
+		is_success = false;
 	}
 	return is_success;
 }

@@ -17,7 +17,7 @@ void print_book(){
 	}
 }
 
-bool isin_bookfile(char id[9]){
+bool isin_bookfile(char id[]){
 	Book_inf *h;
 	bool is_in = false;
 	h = datalist.Bookhead;
@@ -25,7 +25,7 @@ bool isin_bookfile(char id[9]){
 		is_in = false;
 	}else{
 		while( h != NULL ){
-			if( (strcpy(id,h->book_id)) == 0 ){
+			if( (strcmp(id,h->book_id)) == 0 ){
 				is_in = true;
 				break;
 			}
@@ -102,6 +102,35 @@ bool add_to_book_list(Book_inf pause){
 	return is_success;
 }
 
+bool add_to_borrow_List(Borrow_book borrow){
+	bool is_success = false;
+	Borrow_book *h = datalist.BorrowHead;
+	Borrow_book *p = (Borrow_book *)malloc(sizeof(Borrow_book));
+	p->recdor=borrow.recdor;
+	strcpy(p->User_id,borrow.User_id);
+	strcpy(p->Book_id,borrow.Book_id);
+	p->Borrow_time.year = borrow.Borrow_time.year;
+	p->Borrow_time.mon = borrow.Borrow_time.mon;
+	p->Borrow_time.day = borrow.Borrow_time.day;
+	p->days=borrow.days;
+	p->is_return=borrow.is_return;
+	p->next = NULL;
+	if( h != NULL){
+		while( h != NULL ){
+			if( h->next == NULL ){
+				h->next = p;
+				is_success = true;
+				break;
+			}
+			h = h->next;
+		}
+	}else{
+		datalist.BorrowHead=p;
+		is_success = true;
+	}
+	return is_success;	
+}
+
 bool change_book_menu(){
 	bool is_success = false;
 	int is_continue = -1;
@@ -140,11 +169,11 @@ Book_inf* search_book_list(int type,char str[100]){
 				break;
 			}
 		}
-		/*if(is_success){
+		if(is_success){
 			printf("| 编号   |             名称   |        作者        |        出版社      | 出版日期 |  类型 | 价格| 在库数量 |\n"); 
 			printf("|%s|%20s|%20s|%20s|%d-%02d-%02d|   %02d  |%05.2f|%8d  |\n", h->book_id , h->book_name , h->book_author, h->book_public,h->d.year,h->d.mon,
 			h->d.day,h->book_type, h->book_price, h->book_number );
-		}*/
+		}
 		h = h->next;
 	}
 	return h;
@@ -241,3 +270,5 @@ bool change_book(int type,char str[100]){
 	}
 	return is_success;
 }
+
+
