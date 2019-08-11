@@ -3,12 +3,14 @@
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 ListHead datalist;
-User *this_user; 
+User *this_user;
+Setting setting;
 
 int main(int argc, char** argv) {
 	int login_type;
 	login_type = login();
 	ReadBookFile();
+	read_borrow_file();
 	if(login_type == 1){
 		system("cls");
 		cout << this_user->name << "»¶Ó­£¡" <<endl; 

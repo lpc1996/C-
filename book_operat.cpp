@@ -271,4 +271,27 @@ bool change_book(int type,char str[100]){
 	return is_success;
 }
 
-
+bool change_borrow_List(char *book_id){
+	bool is_success = false;
+	Borrow_book *h = datalist.BorrowHead;
+	while(h != NULL){
+		if( strcmp(h->User_id ,this_user->user_id) == 0 && strcmp(h->Book_id,book_id) == 0){
+			h->recdor = 1;
+			is_success = true;
+			break;
+		}
+		h = h->next;
+	}
+	Book_inf *bh = datalist.Bookhead;
+	if(is_success){
+		 while(bh != NULL){
+		 	if(strcmp(bh->book_id,book_id) == 0){
+		 		bh->book_number++;
+		 		is_success = true;
+		 		break;
+			 }
+			 bh = bh->next;
+		 }
+	}
+	return is_success;
+}

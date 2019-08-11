@@ -101,6 +101,10 @@ extern bool read_SettingFile();
 extern void borrow_book();
 extern bool add_to_borrow_List(Borrow_book borrow);
 extern bool add_to_borrow_file(Borrow_book borr);
+extern bool change_borrow_file();
+extern bool change_borrow_List(char *book_id);
+extern void return_book(); 
+extern void read_borrow_file();
 
 extern ListHead datalist;
 extern User *this_user;

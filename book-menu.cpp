@@ -19,7 +19,7 @@ void Readermenu(){
 				borrow_book();
 				break;
 			case 3:
-				cout << "图书归还" << endl;
+				return_book();
 				break;
 			case 4:
 				cout << "查询书籍信息 " <<endl;
@@ -398,4 +398,17 @@ bool delete_from_booklist(int type,char str[100]){
 		h = h->next;
 	}
 	return is_success;
+}
+
+void return_book(){
+	cout << "请输入要归还的图书ID：";
+	char id[9];
+	cin >> id;
+	if(change_borrow_List(id)){
+		change_borrow_file(); 
+		delete_from_bookfile();
+		cout << "还书成功！" <<endl;
+	}else{
+		cout << "还书失败！" <<endl;
+	}
 }

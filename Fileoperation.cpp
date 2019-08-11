@@ -105,7 +105,7 @@ bool delete_from_file(){//向用户文件中写入信息
 	}
 	return is_success;	
 }
-bool delete_from_bookfile(){//从书籍文件中删除数据 
+bool delete_from_bookfile(){//向书籍文件中写入数据 
 	FILE *fp;
 	bool is_success = false;
 	if( fp = fopen(BOOK_URL	,"wt") ){
@@ -143,17 +143,65 @@ bool read_SettingFile(){
 	return is_success;
 }
 
+void writer_borrow_file(Borrow_book *b,FILE *fp){
+	fprintf(fp,"%d %s %s %d-%02d-%02d %d %d",b->recdor,b->User_id,b->Book_id,b->Borrow_time.year,b->Borrow_time.mon
+		,b->Borrow_time.day,b->days,b->is_return);
+}
+
 bool add_to_borrow_file(Borrow_book borr){
 	FILE *fp;
 	bool is_success = false;
 	if( fp = fopen(BORROW_URL,"at") ){
-		fprintf(fp,"%d %s %s %d-%02d-%02d %d %d",borr.recdor,borr.User_id,borr.Book_id,borr.Borrow_time.year,borr.Borrow_time.mon
-		,borr.Borrow_time.day,borr.days,borr.is_return);
+		writer_borrow_file(&borr,fp);
 		fclose(fp);
 		is_success = true;
 	}else{
 		is_success = false;
 	}
 	return is_success;
+}
+
+bool change_borrow_file(){
+	FILE *fp;
+	bool is_success = false;
+	if( fp = fopen(BORROW_URL,"w") ){
+		Borrow_book *h = datalist.BorrowHead;
+		while(h != NULL){
+			writer_borrow_file(h,fp);
+		}
+		fclose(fp);
+		is_success = true;
+	}else{
+		is_success = false;
+	}
+	return is_success;
+}
+
+void read_borrow_file(){
+	Borrow_book *h = datalist.BorrowHead;
+	FILE* fp;
+	if(fp = fopen(BORROW_URL,"r")){
+		Borrow_book pause;
+		while(fscanf(fp,"%d %s %s %d-%d-%d %d %d",&pause.recdor,pause.User_id,pause.Book_id,&pause.Borrow_time.year,
+		&pause.Borrow_time.mon,&pause.Borrow_time.day,&pause.days,&pause.is_return) != EOF){
+			Borrow_book *p = (Borrow_book *)malloc(sizeof(Borrow_book));
+			p->next = NULL;
+			p->recdor = pause.recdor;
+			strcpy(p->User_id,pause.User_id);
+			strcpy(p->Book_id,pause.Book_id);
+			p->Borrow_time = pause.Borrow_time;
+			p->days = pause.days;
+			p->is_return = pause.is_return;
+			if( h != NULL){
+				h->next = p;
+			}else if( h == NULL){
+				h = p;
+			}
+			h = h->next;
+		}
+		fclose(fp);
+	}else{
+		cout << "图书借阅信息读取失败！";
+	}
 }
 
