@@ -119,9 +119,11 @@ void operator_menu(){
 bool buy_book(){//添加图书 
 	bool is_success = false;
 	Book_inf pause;
-	char *is = setId();//生成书籍编号 
-	strcpy(pause.book_id,is);
-	free(is);
+//	char *is = setId();//生成书籍编号 
+//	strcpy(pause.book_id,is);
+//	free(is);
+	cout << "请输入图书ID：" ;
+	cin >> pause.book_id;
 	cout << "请输入图书名称:" ;
 	cin >> pause.book_name;
 	cout << endl;

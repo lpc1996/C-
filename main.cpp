@@ -6,20 +6,20 @@ ListHead datalist;
 User *this_user; 
 
 int main(int argc, char** argv) {
-//	int login_type;
-//	login_type = login();
-//	ReadBookFile();
-//	if(login_type == 1){
-//		system("cls");
-//		cout << this_user->name << "欢迎！" <<endl; 
-//		Readermenu();
-//	}else if( login_type == 2 ){
-//		system("cls");
-//		cout << this_user->name << "欢迎！" <<endl;
-//		operator_menu();
-//	}
-//	cout << "再见！" << endl;
-	read_SettingFile();
+	int login_type;
+	login_type = login();
+	ReadBookFile();
+	if(login_type == 1){
+		system("cls");
+		cout << this_user->name << "欢迎！" <<endl; 
+		Readermenu();
+	}else if( login_type == 2 ){
+		system("cls");
+		cout << this_user->name << "欢迎！" <<endl;
+		operator_menu();
+	}
+	cout << "再见！" << endl;
+//	read_SettingFile();
 	//buy_book();
 	system("pause");
 	return 0;
@@ -40,7 +40,7 @@ void put_data(){
 	cout << " ----------------------------------------" << endl;
 	printf("|编号    |    姓名  |性别|年龄|管理员等级|\n"); 
 	while(h != NULL ){
-		printf("|%s|%10s| %s | %02d |     %d    |\n",h->user_id,h->name,h->sex,h->age,h->isoperation);
+		printf("|%10s|%10s| %s | %02d |     %d    |\n",h->user_id,h->name,h->sex,h->age,h->isoperation);
 		h = h->next;
 	}
 	cout << " ----------------------------------------" << endl;

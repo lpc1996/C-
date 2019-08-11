@@ -171,6 +171,8 @@ bool Register(){
 	if(grade == -1)
 		return false; 
 	User pause;
+	cout << "请输入id:";
+	cin >> pause.user_id; 
 	cout << "请输入用户名：";
 	cin >>pause.name ;
 	cout << endl;
@@ -186,10 +188,10 @@ bool Register(){
 	p = getpass();
 	strcpy(pause.pass,p);
 	free(p);
-	char *a; 
-	a = setId(grade+1);
-	strcpy(pause.user_id,a);
-	free(a);
+//	char *a; 
+//	a = setId(grade+1);
+//	strcpy(pause.user_id,a);
+//	free(a);
 	is_success = addToList(pause);
 	is_success = addToFile(pause);
 	return is_success;  

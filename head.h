@@ -9,6 +9,8 @@
 #include <conio.h>
 
 #define SETTING "setting.txt"
+#define BOOK_URL "Book.txt"
+#define USER_URL "User.txt"
 
 using namespace std;
 
