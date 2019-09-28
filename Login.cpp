@@ -222,11 +222,11 @@ int LoginToSystem(int type){//µÇÂ¼ÏµÍ³
 	return type;
 }
  
-bool is_infile( char str[] , int ispass, int type){
+bool is_infile( char *str , int ispass, int type){
 	bool is_in = false;
 	User *h;
 	h = datalist.Userhead;
-	char pa[21];
+	char *pa;
 	while(h != NULL){
 		if(ispass == 0){
 			strcpy(pa,h->name);	
@@ -249,6 +249,8 @@ bool is_infile( char str[] , int ispass, int type){
 	}
 	return is_in;
 }
+
+
 
 int get_num(char id[9]){
 	int num;
